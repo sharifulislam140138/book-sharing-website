@@ -89,7 +89,7 @@
 
                     <div class="row">
 
-                  <div class="col-sm-12">
+                  <div class="col-sm-12" class="form-control">
                         <div class="card shadow mb-4">
                                 <div class="card-header py-3">
                                     <h6 class="m-0 font-weight-bold text-primary">category list</h6>
@@ -100,9 +100,9 @@
                                       <tr>
                                           <th>s1</th>
                                           <th>name</th>
-                                          <th>link</th>
-                                          <th>Address</th>
-                                            <th>Address</th>
+                                          <th>url</th>
+                                          <th>parent category</th>
+                                            
                                              <th>Manage</th>
                                       </tr>
                                   </thead>
@@ -112,9 +112,18 @@
                                       <tr>
                                           <td>{{$loop->iteration}}</td>
                                           <td>{{$category->name}}</td>
-                                          <td>{{$category->link}}</td>
-                                          <td>{{$category->address}}</td>
-                                          <td>{{$category->outlet}}</td>
+                                          <td>
+                                            <a href="{{route('categories.show', '$category->slug')}}" target="blank">{{route('categories.show',$category->slug)}}</a>
+                                          </td>
+                                          <td>
+                                      @if(!is_null($category->parent_category($category->parent_id)))
+                                            {{$category->parent_category($category->parent_id)->name}}
+                                          </td>
+                                          
+                                          @else
+                                          --
+
+                                          @endif
                                           <td>
                                               <a href="#editModal{{$category->id}}" class="btn btn-success" data-toggle="modal"><i class="fa fa-edit"></i>edit</a>
 
@@ -125,11 +134,11 @@
                   
 
                     <div class="modal fade" id="editModal{{$category->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-     <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">editcategory</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+             <h5 class="modal-title" id="exampleModalLabel">edit category</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
@@ -138,38 +147,38 @@
           @csrf
 
           <div class="row">
-         <div class="col-md-6">
+          <div class="col-md-6">
               <label for="">category name</label>
               <br>
-              <input type="text" class="form-control" name="name" placeholder="category name" value="{{$category->name}}">
+              <input type="text" class="form-control" name="name" placeholder="category name" value="{{$category->name}}" >
               
             </div>
                   <div class="col-md-6">
               <label for="">category url text</label>
               <br>
-              <input type="text" class="form-control" name="link" placeholder="category slug,e.g,c-programming" value="{{$category->link}}">
+              <input type="text" class="form-control" name="slug" placeholder="category slug,e.g,c-programming" value="{{$category->slug}}" >
               
             </div>
 
-               <div class="col-md-6">
+            <div class="col-md-6">
               <label for="parent_id">parent category</label>
               <br>
-              <select name="parent_id" id="parent_id">
+              <select name="parent_id" id="parent_id" class="form-control">
                 <option value="">select category</option>
 
                 @foreach($parent_categories as $parent)
-                <option value="{{$parent->id}}">{{$parent->name}}</option>
+                <option value="{{$parent->id}}" {{$category->parent_id==$parent->id ? 'selected' : ''}}>{{$parent->name}}</option>
                 @endforeach
               </select>
              
               
             </div>
-      
+            
 
                <div class="col-12">
               <label for="">category details</label>
               <br>
-           <textarea name="description" id="description" cols="30" rows="5" class="form-control" placeholder="author description">{{ $category->description }}</textarea>
+           <textarea name="description" id="description" cols="30" rows="5" class="form-control" placeholder="category description">{{$category->description}}</textarea>
                
             </div>
             

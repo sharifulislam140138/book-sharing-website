@@ -93,21 +93,27 @@ class CategoriesController extends Controller
      */
     public function update(Request $request, $id)
     {
+         $category= Category::find($id);
+         
          $validated = $request->validate([
         'name' => 'required|max:50',
-         'link' => 'nullable|url',
+        'slug' => 'nullable|unique:categories,slug,'.$category->id,
         'description' => 'nullable',
     ]);
-         $category= Category::find($id);
+      
+        $category= Category::find($id);
         $category->name = $request->name;
-          $category->link =$request->link;
-        $category->outlet = $request->outlet;
-        $category->address = $request->address;
-       
+       if(empty($request->slug)){
+        $category->slug=str_slug($request->name);
+       }else{
+        $category->slug=$request->slug;
+       }
+
+        $category->parent_id = $request->parent_id;
         $category->description = $request->description;
         $category->save();
 
-        session()->flash('success', 'updated successfully');
+        session()->flash('success', 'category has been updated');
         return back();
     }
 
@@ -119,11 +125,17 @@ class CategoriesController extends Controller
      */
     public function destroy($id)
     {
+        //child category delete
+        $child_categories= Category::where('parent_id', $id)->get();
+        foreach($child_categories as $child){
+            $child->delete();
+        }
+
         
          $category= Category::find($id);
         
         $category->delete();
-        session()->flash('success', 'Publisher has been deleted');
+        session()->flash('success', 'category has been deleted');
         return back();
     }
 }
