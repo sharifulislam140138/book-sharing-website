@@ -1,6 +1,120 @@
-@extends('layouts.app')
+@extends('frontend.layouts.app')
 
 @section('content')
+
+  <div class="login-area page-area">
+    <div class="container">
+      <div class="row">
+          <div class="col-md-8 border p-4">
+             <form method="POST" action="{{ route('register') }}">
+                        @csrf
+              <h3>Create New Account</h3>
+              <hr>
+
+              
+@if ($errors->any())
+    <div class="alert alert-danger">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
+              <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                    <label for="exampleInputEmail1"> Name</label>
+                       <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" required autocomplete="name" autofocus placeholder="enter your name">
+
+                                @error('name')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                  </div>
+                </div>
+           
+              </div>
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="username">user name</label>
+                     <input id="username" type="username" class="form-control @error('username') is-invalid @enderror" name="username" value="{{ old('username') }}" required autocomplete="username" id="username" placeholder="enter user name">
+
+                                @error('email')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="phone_no">phone number</label>
+                    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter contact number"  class="form-control @error('phone_no') is-invalid @enderror" name="phone_no" value="{{ old('phone_no') }}" required autocomplete="phone_no" id="phone_no">
+                      @error('phone_no')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                    <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="exampleInputEmail1">Email address</label>
+                     <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" placeholder="enter email no">
+
+                                @error('email')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                  </div>
+                </div>
+                </div>
+              
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="exampleInputPassword1">Password</label>
+                          <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="new-password" placeholder="*******">
+
+                                @error('password')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="password-confirm">Confirm Password</label>
+                    <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">
+                  </div>
+                </div>
+              </div>
+              
+              <div class="form-group form-check">
+                <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                <label class="form-check-label" for="exampleCheck1">Remember Me</label>
+              </div>
+              <button type="submit" class="btn btn-success"><i class="fa fa-check"></i> Register Now</button>
+            </form>
+          </div>
+          <div class="col-md-4 border p-4">
+            <h4>Already have an account  ?</h4>
+            <p>
+              <a href="{{route('login')}}" class="btn btn-primary btn-lg">Login Now</a>
+            </p>
+          </div>
+      </div>
+    </div>
+  </div>
+
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
