@@ -177,7 +177,7 @@ class BooksController extends Controller
         'title' => 'required|max:50',
         'category_id' => 'required',
          'publisher_id' => 'required',
-        'slug' => 'nullable|unique:books,slug',.$book->id,
+        'slug' => 'nullable|unique:books,slug',$book->id,
         'description' => 'nullable',
        'image' => 'nullable|image|max:2048'
         

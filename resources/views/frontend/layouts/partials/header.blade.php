@@ -1,16 +1,36 @@
 
   <div class="top-header">
     <div class="container">
-      <div class="dropdown float-right">
+
+      
+         <div class="dropdown float-right">
         <a class="dropdown-toggle pointer top-header-link" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           <i class="fa fa-user"></i> My Account
         </a>
         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-          <a class="dropdown-item" href="profile.html">Profile</a>
-          <a class="dropdown-item" href="dashboard.html">Dashboard</a>
-          <a class="dropdown-item" href="#">Logout</a>
+          @if(Auth::check())
+
+          <a class="dropdown-item" href="{{route('users.profile',Auth::user()->username)}}">Profile</a>
+          <a class="dropdown-item" href="{{route('users.dashboard')}}">Dashboard</a>
+          <a class="dropdown-item" href="{{ route('logout') }}"
+                                       onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();">
+                                        logout
+                                    
+                                      <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                        @csrf
+                                    </form>
+
+         @else
+           <a class="dropdown-item" href="{{route('login')}}">sign in</a>
+             <a class="dropdown-item" href="{{route('register')}}">sign up</a>
+
+      @endif
+
         </div>
       </div>
+  
+   
       <div class="float-right">
         <a href="" class="top-header-link"><span class="item">10</span> items in wishlist</a>
       </div>
@@ -46,7 +66,7 @@
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Upload Books</a>
             <div class="dropdown-menu" aria-labelledby="dropdown01">
-              <a class="dropdown-item" href="upload.html">Upload Now</a>
+              <a class="dropdown-item" href="{{route('books.upload')}}">Upload Now</a>
               <a class="dropdown-item" href="rules.html">Upload Rules</a>
             </div>
           </li>

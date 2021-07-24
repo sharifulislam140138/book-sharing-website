@@ -18,6 +18,10 @@ class Book extends Model
     {
     	return $this->belongsTo(Publisher::class);
     }
+       public function authors()
+    {
+        return $this->hasMany(BookAuthor::class);
+    }
     public static function isAuthorSelected($book_id,$author_id)
     {
        $book_author=BookAuthor::where('book_id',$book_id)->where('author_id',$author_id)->first();
